@@ -2,6 +2,7 @@ library(rvest)
 library(xml2)
 library(magrittr)
 library(dplyr)
+library(ggplot2)
 
 rawData = NULL
 vintages = seq(2012,2015,1)
@@ -52,11 +53,45 @@ removeWhitespace <- function(List)
 #    add the origin
 #    add the vintage
 
+rawData%>%
+  select(Country, Price, Rating, Vintage)%>%
+  filter(!is.na(Price))%>%
+  group_by(Country)%>%
+  ggplot(.,aes(Rating,Price))+
+  geom_point(aes(colour = Country, stat="identity"))+
+  facet_grid(~Vintage)->graph2
+  
+graph2
+
 # b. Develop a simple linear regression model
 #
 
-# c. 
-#
+reg <- lm(Rating~Price, data = rawData)
+summary(reg)
+
+
+# c. Variablentransformation
+rawData%>%
+  select(Country, Price, Rating, Vintage)%>%
+  filter(!is.na(Price))%>%
+  group_by(Country)%>%
+ #mutate(Price = log(Price))
+  mutate(Rating = (Rating)^0,5)#%>%
+  #ggplot(.,aes(Rating,Price))+
+  #geom_point(aes(colour = Country, stat="identity"))+
+  #facet_grid(~Vintage)->graph2c
+
+#graph2c
+
+reg <- lm(Rating~Price, data = transformatedRawData)
+summary(reg)
+
+# Durch die logarithmische Transformation des Preises verbessert sich R^2 nur minimal
+# von 0,3369 auf 0,3895. Die zusätzliche sqrt Transformation des Ratings würde R^2 immerhin
+# auf 0,5 bringen, allerdings ist der Graph2c danach nur noch eine senkrechte Gerade.
+
+
+
 
 # d. Multi regression model using backward selection
 #
