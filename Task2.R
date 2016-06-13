@@ -31,7 +31,7 @@ for (vintage in vintages)
     }
   }
 }
-
+write.csv2(rawData,file = "riesilingData.csv",sep = ",",row.names = T,col.names = T)
 #Format the Price from factor to numeric
 formatPrice <- function(Price)
   {
