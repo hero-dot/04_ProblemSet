@@ -161,6 +161,41 @@ dfCompanyA
 
 
 
+tierlist <- NULL
+for (i in seq(1,14,2)) 
+{
+  tierlist <- rbind(tierlist,careerTier2[i])
+}
+tieramount <- NULL
+for (i in seq(2,14,2)) 
+{
+  tieramount <- rbind(tieramount,careerTier2[i])
+}
+
+dfTier = data.frame(tierlist,tieramount)
+dfTier
 
 
+businesslist <- NULL
+for (i in seq(1,20,2))
+{
+  businesslist <- rbind(businesslist,business2[i])
+}
 
+businessamount <- NULL
+for (i in seq(2,20,2))
+{
+  businessamount <- rbind(businessamount,business2[i])
+}
+dfBusiness = data.frame(businesslist,businessamount)
+
+# a. Visualize and discuss your results.
+# Idee: Für jedes Dataframe eine Darstellung.
+#       drei Darstellungen jeweils nebeneinander
+#       Abschließend eine kurze Diskussion 
+
+# b. Compare the different each terms -are the reuslts similar
+# Eigentilch können wir die b in die 
+
+
+# c. What information is lost? Is it a problem, depending on the use case? 
