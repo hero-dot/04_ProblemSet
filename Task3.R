@@ -66,18 +66,53 @@ for (page in pages)
   if ((nrow(finalData) > 2000)) {break}
   
 }
+
+# Save the data
 write.csv(finalData,file = "autoScoutData.csv")
 
 # Variables selected
-# mk - Hersteller
-# fr - Erstzulassung
-# ma - Kilometerstand
-# md - Modelvariante
-# env - Verbrauch und CO2 Ausstoß
+#
+# mk        - Hersteller
+# fr        - Erstzulassung
+# ma        - Kilometerstand
+# md        - Modelvariante
+# env       - Verbrauch und CO2 Ausstoß
 # price_raw - Verkaufspreis
-# ph - Leistung in PS
-# ra - Rating des Verkäufers
+#        ph - Leistung in PS
+#        ra - Rating des Verkäufers
 
+autoData <- read.csv("autoScoutData.csv")
+
+autoData%>%
+  mutate(env=sapply(strsplit(as.character(.$env),"\""),function(x) x[2]))%>%
+  mutate(fc = sapply(strsplit(.$env," "),function(x) x[1]))%>%
+  mutate(fc = sapply(gsub(",",".",.$fc),function(x)as.numeric(x)))%>%
+  mutate(co2km = sapply(strsplit(.$env," "),function(x) as.numeric(x[5])))%>%
+  mutate(mk = sapply(.$mk,function(x)cleanFun2(as.character(x))))%>%
+  mutate(fr = sapply(.$fr,function(x)cleanFun2(as.character(x))))%>%
+  mutate(ma = sapply(.$ma,function(x)cleanFun2(as.character(x))))%>%
+  mutate(ma = sapply(.$ma, function(x)gsub("\\.","",x)))%>%
+  mutate(md = sapply(.$md,function(x)cleanFun2(as.character(x))))%>%
+  mutate(ph = sapply(.$ph,function(x)cleanFun2(as.character(x))))%>%
+  mutate(ph = sapply(.$ph,function(x)as.numeric(x)))%>%
+  select(-env)->test
+
+attributes(test$ma) <- NULL
+attributes(test$fc) <- NULL
+attributes(test$ph) <- NULL
+
+# a. Visualize the main value components
+
+
+# b. Randomly choose 800 vehicles
+#    Train different linear regression models 
+#    Use These models to forecast the price
+
+# c. Report the mean squared error and compare this metric
+#    with the models R^2 values
+
+# d. List the cars the models had most problems to predict
+#    What's the underlying problem
 
 
 # To delete, but maybe still useful
