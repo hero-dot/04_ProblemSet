@@ -71,28 +71,27 @@ summary(reg)
 
 
 # c. Variablentransformation
-rawData%>%
-  select(Country, Price, Rating, Vintage)%>%
-  filter(!is.na(Price))%>%
-  group_by(Country)%>%
- #mutate(Price = log(Price))
-  mutate(Rating = (Rating)^0,5)#%>%
-  #ggplot(.,aes(Rating,Price))+
-  #geom_point(aes(colour = Country, stat="identity"))+
-  #facet_grid(~Vintage)->graph2c
+#
 
-#graph2c
 
-reg <- lm(Rating~Price, data = transformatedRawData)
+reg <- lm(logRating~logPrice, data = rawData)
 summary(reg)
-
-# Durch die logarithmische Transformation des Preises verbessert sich R^2 nur minimal
-# von 0,3369 auf 0,3895. Die zusätzliche sqrt Transformation des Ratings würde R^2 immerhin
-# auf 0,5 bringen, allerdings ist der Graph2c danach nur noch eine senkrechte Gerade.
 
 
 
 
 # d. Multi regression model using backward selection
 #
-#
+
+rawData%>%
+  select(Country, Price, Rating, Vintage)%>%
+  filter(!is.na(Price)) -> rawData1
+
+reg1 <- lm(Rating~.,data = rawData1)
+summary(reg1) #R^2 = 0.4027
+
+reg2 <- lm(Rating~Price+Country, data = rawData1)
+summary(reg2) #R^2 = 0.3998
+
+reg3 <- lm(Rating~Price, data = rawData1)
+summary(reg3) #R^2 = 0.3386
