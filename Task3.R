@@ -95,11 +95,11 @@ autoData%>%
   mutate(md = sapply(.$md,function(x)cleanFun2(as.character(x))))%>%
   mutate(ph = sapply(.$ph,function(x)cleanFun2(as.character(x))))%>%
   mutate(ph = sapply(.$ph,function(x)as.numeric(x)))%>%
-  select(-env)->test
+  select(-env)->autoData
 
-attributes(test$ma) <- NULL
-attributes(test$fc) <- NULL
-attributes(test$ph) <- NULL
+attributes(autoData$ma) <- NULL
+attributes(autoData$fc) <- NULL
+attributes(autoData$ph) <- NULL
 
 # a. Visualize the main value components
 
