@@ -1,6 +1,7 @@
 library(rvest)
 library(dplyr)
 library(magrittr)
+library(ggplot2)
 
 cleanFun <- function(htmlString) {
   x = gsub("\\r","", htmlString)
@@ -95,18 +96,26 @@ autoData%>%
   mutate(md = sapply(.$md,function(x)cleanFun2(as.character(x))))%>%
   mutate(ph = sapply(.$ph,function(x)cleanFun2(as.character(x))))%>%
   mutate(ph = sapply(.$ph,function(x)as.numeric(x)))%>%
+  mutate(ma = sapply(.$ma,function(x)as.numeric(x)))%>%
   select(-env)->autoData
 
 attributes(autoData$ma) <- NULL
 attributes(autoData$fc) <- NULL
 attributes(autoData$ph) <- NULL
 
-# a. Visualize the main value components
 
+# a. Visualize the main value components
+autoData%>%
+  ggplot(., aes(price_raw,ma,color=ph))+
+  geom_point()+
+  facet_grid(.~md)-> graph
+graph
 
 # b. Randomly choose 800 vehicles
 #    Train different linear regression models 
 #    Use These models to forecast the price
+
+ra
 
 # c. Report the mean squared error and compare this metric
 #    with the models R^2 values
