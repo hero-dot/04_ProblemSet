@@ -1,0 +1,51 @@
+css selectors
+job name: .job-title-text
+job location: .job-location
+company name: .company-name-text
+
+Page link: 
+https://www.linkedin.com/jobs/search?
+
+Search Term:
+keywords=Data+Science
+
+&
+
+location:
+location=Deutschland
+
+
+require(dplyr)
+library(xml2)
+
+LinkedIn <- read_html("https://www.linkedin.com/jobs/search?keywords=Data+Analyst&locationId=de:0&orig=FCTD&start=0&count=25&trk=jobs_jserp_pagination_1")
+LinkedIn1 <- read_html("https://de.linkedin.com/jobs/search?keywords=Data+Science&locationId=de:0&start=0&count=25&trk=jobs_jserp_pagination_1")
+LinkedIn2 <- read_html("https://de.linkedin.com/jobs/search?keywords=Analytics&locationId=de:0&start=0&count=25&trk=jobs_jserp_pagination_1")
+LinkedIn3 <- read_html("https://de.linkedin.com/jobs/search?keywords=Business+Intelligence&locationId=de:0&start=0&count=25&trk=jobs_jserp_pagination_1")
+
+pages = 44
+gesamteDaten = NULL
+company = NULL
+location = NULL
+location1 = NULL
+careerTier2 = NULL
+
+for (page in 1:pages){
+  
+  url <- paste0("https://www.linkedin.com/jobs/search?keywords=Data+Analyst&locationId=de:0&start=",(page-1)*50,"&count=50&trk=jobs_jserp_pagination_",page)
+  
+company <- LinkedIn %>%
+  html_nodes(".jserp-results .company-name .company-name-text")%>%
+  html_text()
+
+location <- LinkedIn %>%
+  html_nodes(".jserp-results .job-location span")%>%
+  html_text()
+
+dfDataAnalyst <- data.frame(company, location)
+
+gesamteDaten = rbind(gesamteDaten,dfDataAnalyst)
+
+}
+
+show(gesamteDaten)
