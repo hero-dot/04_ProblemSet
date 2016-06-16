@@ -23,6 +23,7 @@ makeDF <- function(list)
 }
 
 searches = c("Data+Analyst","Data+Science","Analytics","Business+Intelligence")
+varNames = list("Data+Analyst" = "DataAnalyst","Data+Science" = "DataScience", "Analytics" = "Analytics","Business+Intelligence"="BusinessIntelligence")
 
 for (search in searches) 
 {
@@ -44,7 +45,7 @@ for (search in searches)
       html_nodes(".C .facet-item-link span")%>%
       html_text()
   }
-  assign(paste0("company",search),makeDF(company)) 
+  assign(paste0("company",varNames[[search]]),makeDF(company)) 
   
   location <- htmlDoc %>%
     html_nodes(".GC .facet-item-link span")%>%
@@ -55,7 +56,7 @@ for (search in searches)
       html_nodes(".GC .facet-display-value")%>%
       html_text()
   }
-  assign(paste0("location",search),makeDF(location))
+  assign(paste0("location",varNames[[search]]),makeDF(location))
 
   business <- htmlDoc %>%
     html_nodes(".I .facet-item-link span")%>%
@@ -66,7 +67,7 @@ for (search in searches)
       html_nodes(".I .facet-display-value")%>%
       html_text()
   }
-  assign(paste0("business",search),makeDF(business))
+  assign(paste0("business",varNames[[search]]),makeDF(business))
   
   careerTier <- htmlDoc %>%
     html_nodes(".E .facet-item-link span")%>%
@@ -77,7 +78,7 @@ for (search in searches)
       html_nodes(".E .facet-display-value")%>%
       html_text()
   }
-  assign(paste0("careerTier",search),makeDF(careerTier))
+  assign(paste0("careerTier",varNames[[search]]),makeDF(careerTier))
 }
 
 # a. Visualize and discuss your results.
