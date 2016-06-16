@@ -16,7 +16,7 @@ makeDF <- function(list)
     countList <- rbind(countList,list[i])
   }
   # change from factor to numeric
-  countList <- sapply(countlist,function(x)as.character(x))
+  countList <- sapply(countList,function(x)as.character(x))
   
   df = data.frame(descrList,countList)
   return(df)
