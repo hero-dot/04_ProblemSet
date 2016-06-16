@@ -115,31 +115,58 @@ graph
 #    Train different linear regression models 
 #    Use These models to forecast the price
 
-ra
+autoSample <-autoData[sample(nrow(autoData),800),]
+
+regModel <- lm(price_raw~ma+ph+fc+co2km+as.factor(md),autoSample)
+summary(regModel)
+# R^2 = 0.1594
+
+regModel1 <- lm(price_raw~ma+ph+fc+co2km,autoSample)
+summary(regModel1)
+# R^2 = 0.1505
+
+regModel2 <- lm(price_raw~ma+ph+co2km,autoSample)
+summary(regModel2)
+# R^2 = 0.151
+
+regModel3 <- lm(price_raw~ph+fc+co2km,autoSample)
+summary(regModel3)
+# R^2 = 0.1447
+
+regModel4 <- lm(price_raw~ph+co2km,autoSample)
+summary(regModel4)
+# R^2 = 0.1453
+
+# predict the price with predict(lm,df)
+# use vehicles not used for training the model
+
 
 # c. Report the mean squared error and compare this metric
 #    with the models R^2 values
 
+mse <- function(lm)
+{
+  return(mean(lm$residuals^2))
+}
+
+# Mean Squared error of regModel 
+mse1 <- mse(regModel)
+# R^2 = 0.1594
+
+# Mean Squared error of regModel1 
+mse2 <- mse(regModel1)
+# R^2 = 0.1505
+
+# Mean Squared error of regModel 
+mse3 <- mse(regModel2)
+# R^2 = 0.1447
+
+# Mean Squared error of regModel 
+mse4 <- mse(regModel3)
+# R^2 = 0.1447
+
 # d. List the cars the models had most problems to predict
 #    What's the underlying problem
 
-
-# To delete, but maybe still useful
-test <- Listings[1]
-length(convertListingEntry(test))
-zzz = test[1]
-zzz = strsplit(zzz,",\\\"")[[1]]
-zzz = zzz[-1]
-zzz = sapply(zzz,function(x){strsplit(x,":")})
-zzz = sapply(zzz,function(x){c(x[1],x[2])})
-zzz = as.data.frame(zzz)
-colnames(zzz) <- cleanFun2(as.character(unlist(zzz[1,])))
-test3 <- cleanFun2(as.character(unlist(zzz[1,])))
-zzz[2,][is.na(zzz[2,])] = zzz[1,][is.na(zzz[2,])]
-#zzz[2,] = cleanFun2(as.character(unlist(zzz[2,])))
-return(zzz[2,])
-
-length(cleanFun2(as.character(unlist(zzz[1,]))))
-test3
-test
-l
+# Unser Model hat durchweg schlechte Werte für den R^2 und eignet sich damit generell nicht gut 
+# für die Vorhersage. Mit besseren Daten könnten evt. auch bessere Modelle erstellen. 

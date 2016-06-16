@@ -81,16 +81,11 @@ graph2
 reg <- lm(Rating~Price, data = rawData)
 summary(reg)
 
-
 # c. Variablentransformation
 #
 
-
 reg <- lm(logRating~logPrice, data = rawData)
 summary(reg)
-
-
-
 
 # d. Multi regression model using backward selection
 #
