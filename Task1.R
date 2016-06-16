@@ -82,12 +82,30 @@ for (search in searches)
 }
 
 # a. Visualize and discuss your results.
-# Idee: Für jedes Dataframe eine Darstellung.
-#       drei Darstellungen jeweils nebeneinander
-#       Abschließend eine kurze Diskussion 
+#
+# Leider haben wir Probleme mit dem Scraping von LinkedIn, da es den CSS-Selektor nur manchmal akzeptiert.
+# Dies liegt vermutlich an der beschränkten Zugriffsanzahl auf LinkedIn. Um die Daten darstellen zu können,
+# müssten wir Faktor-Daten zunächst in Strings und dann in Numerische umwandeln.
+# Anschließend haben wir 16 DataFrames (4 für jeden Suchbegriff). Diese würden wir jeweils in 
+# einem Histogramm (Anzahl Treffer farblich abgegrenzt) darstellen. Mittels "grid.arrange" würden wir die 
+# vier Schaubilder für jeden Suchbegriff nebeneinander und die Suchbegriffe zur Vergleichbarkeit untereinander
+# anordnen.
+
 
 # b. Compare the different each terms -are the reuslts similar
-# Eigentilch können wir die b in die 
+# 
+# Da wir leider keine Daten bei der Darstellung mehr zur Verfügung hatten, können wir hierzu keine konkrete 
+# Aussage treffen. Ähnlich bei allen Suchbegriffen bezüglich der Standorte lässt sich sagen, dass München 
+# und Berlin zu den häufigsten Standorten zählen. Bei den häufigsten Unternehmen lässt sich keine wirklichere 
+# Ähnlichkeit bei den verschiedenen Suchbegriffen feststellen. Die Branche betreffend stehen IT & Services und 
+# das Internet an oberster Stelle. Für Berufserfahrung kann man feststellen, dass die Häufigkeit der gesuchten  
+# Berufserfahrung bei allen vier Suchbegriffen nahezu identisch ist. 
 
 
-# c. What information is lost? Is it a problem, depending on the use case? 
+# c. 
+#
+# Wenn man die summary statistic zum Scrapen der Daten verwendet, gehen einerseits zahlreiche Daten verloren, da 
+# hierbei nur die häufigsten Ergebnisse gezogen werden. Auf der anderen Seite kann man bei dieser Methode keine
+# Rückschlüsse über Beziehungen der Daten untereinander ziehen (z.B. man weiß nicht mehr welcher Standort zu welchem 
+# Unternehmen gehört). Bezieht man die Daten von allen Unterseiten, ist das Ergebnis vollständig und man kann etwaige 
+# Kardinalitäten abbilden.
