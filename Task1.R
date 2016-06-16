@@ -15,10 +15,12 @@ makeDF <- function(list)
   {
     countList <- rbind(countList,list[i])
   }
+  # change from factor to numeric
+  countList <- sapply(countlist,function(x)as.character(x))
+  
   df = data.frame(descrList,countList)
   return(df)
 }
-
 
 searches = c("Data+Analyst","Data+Science","Analytics","Business+Intelligence")
 
@@ -34,16 +36,14 @@ for (search in searches)
   careerTier = NULL
   
   company <- htmlDoc %>%
-    html_nodes(".C .facet-item-link span")%>%
+    html_nodes(".C .facet-display-value")%>%
     html_text()
-  
   if (length(company)==0) 
   {
     company <- htmlDoc %>%
-      html_nodes(".C .facet-display-value")%>%
+      html_nodes(".C .facet-item-link span")%>%
       html_text()
   }
-  
   assign(paste0("company",search),makeDF(company)) 
   
   location <- htmlDoc %>%
@@ -55,7 +55,6 @@ for (search in searches)
       html_nodes(".GC .facet-display-value")%>%
       html_text()
   }
-  
   assign(paste0("location",search),makeDF(location))
 
   business <- htmlDoc %>%
@@ -67,7 +66,6 @@ for (search in searches)
       html_nodes(".I .facet-display-value")%>%
       html_text()
   }
-  
   assign(paste0("business",search),makeDF(business))
   
   careerTier <- htmlDoc %>%
@@ -79,7 +77,6 @@ for (search in searches)
       html_nodes(".E .facet-display-value")%>%
       html_text()
   }
-  
   assign(paste0("careerTier",search),makeDF(careerTier))
 }
 
